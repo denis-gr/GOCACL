@@ -1,22 +1,16 @@
-# Спринт 0. Калькулятор
-
-## Контрольная работа
-макс. 100 балл.  
-Дедлайн: 28 окт., 00:00
+# Спринт 0-1. Калькулятор
 
 ## Описание
-Реализовать функцию `func Calc(expression string) (float64, error)`.  
+1. Реализовать функцию `func Calc(expression string) (float64, error)`.  
 `expression` - строка-выражение, состоящее из односимвольных идентификаторов и знаков арифметических действий.
+2. Написать сервис для решения арифметических выражений, использующий формат json
 
 ## Входящие данные
 - Цифры (рациональные)
 - Операции: `+`, `-`, `*`, `/`
 - Операции приоритезации: `(` и `)`
 
-## Ошибки
-В случае ошибки записи выражения функция должна возвращать ошибку.
-
-## Пример использования
+## Пример использования (импорт gocacl)
 ```go
 result, err := Calc("3 + 2 * (1 + 2)")
 if err != nil {
@@ -26,12 +20,46 @@ if err != nil {
 }
 ```
 
-## Запуск программы
+## Запуск программы (консольный режим)
 Для запуска программы выполните следующую команду:
 ```shell
 export GOPATH := $(shell pwd) # Only For Linux
 setx GOPATH "%cd%" # Only For Windows
-go run ./...
+go run cmd\calc\console.go
+```
+
+## Запуск программы (режим cервиса)
+Для запуска программы выполните следующую команду:
+```shell
+export GOPATH := $(shell pwd) # Only For Linux
+setx GOPATH "%cd%" # Only For Windows
+go run cmd\server\server.go --ipPort :8123 # Listen on 8123 port
+```
+
+## Примеры (режим cервиса)
+Для запуска программы выполните следующую команду:
+```shell
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2+2*2\" }"
+{"result":6}
+
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2+2*2\" }"
+{"result":6}
+
+C:\Users\denis\YandexDisk\Рабочий стол\GOCACL>curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/2\" }" 
+{"result":1}
+
+C:\Users\denis\YandexDisk\Рабочий стол\GOCACL>curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/0\" }"
+{"error":"деление на ноль"}
+
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2+2*\" }" 
+}"
+{"error":"некорректное выражение"}
+
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"\" }"
+{"error":"некорректное выражение"}
+
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \" }"
+{"error":"unexpected EOF"}
 ```
 
 ## Запуск тестов
