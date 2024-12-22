@@ -36,8 +36,14 @@ setx GOPATH "%cd%" # Only For Windows
 go run cmd\server\server.go --ipPort :8123 # Listen on 8123 port
 ```
 
-## Примеры (режим cервиса)
+## Запуск программы в docker (режим cервиса)
 Для запуска программы выполните следующую команду:
+```shell
+docker build --rm -f "dockerfile" -t gocacl:latest "." 
+docker run --rm -d -p 8080:8080/tcp gocacl:latest
+```
+
+## Примеры (режим cервиса)
 ```shell
 >>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2+2*2\" }"
 {"result":6}
@@ -70,3 +76,5 @@ setx GOPATH "%cd%" # Only For Windows
 go test ./... --cover
 ```
 
+## Контакты
+https://t.me/denisgrigoriev04
