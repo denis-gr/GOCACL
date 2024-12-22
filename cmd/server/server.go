@@ -2,6 +2,7 @@ package main
 
 import (
     "flag"
+	"log"
 	"net/http"
 	"encoding/json"
 
@@ -64,6 +65,7 @@ func calcHandler(w http.ResponseWriter, r *http.Request) {
 
 func startServer(ipPort string) {
 	http.HandleFunc(entryPoint, withErrorHandling(calcHandler))
+	log.Printf("Server started on %s", ipPort)
 	http.ListenAndServe(ipPort, nil)
 }
 
