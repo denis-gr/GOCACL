@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"gocalc/pkg/calc"
+	"GOCALC/pkg/calc"
 )
 
 const (

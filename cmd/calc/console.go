@@ -2,7 +2,7 @@
 package main
 
 import (
-	"gocalc/internal/console"
+	"GOCALC/internal/console"
 )
 
 func main() {

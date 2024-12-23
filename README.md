@@ -10,7 +10,7 @@
 - Операции: `+`, `-`, `*`, `/`
 - Операции приоритезации: `(` и `)`
 
-## Пример использования (импорт gocacl)
+## Пример использования (импорт `github.com/denis-gr/GOCACL`)
 ```go
 result, err := Calc("3 + 2 * (1 + 2)")
 if err != nil {
@@ -23,24 +23,20 @@ if err != nil {
 ## Запуск программы (консольный режим)
 Для запуска программы выполните следующую команду:
 ```shell
-export GOPATH := $(shell pwd) # Only For Linux
-setx GOPATH "%cd%" # Only For Windows
 go run cmd\calc\console.go
 ```
 
 ## Запуск программы (режим cервиса)
 Для запуска программы выполните следующую команду:
 ```shell
-export GOPATH := $(shell pwd) # Only For Linux
-setx GOPATH "%cd%" # Only For Windows
 go run cmd\server\server.go --ipPort :8123 # Listen on 8123 port
 ```
 
 ## Запуск программы в docker (режим cервиса)
 Для запуска программы выполните следующую команду:
 ```shell
-docker build --rm -f "dockerfile" -t gocacl:latest "." 
-docker run --rm -d -p 8080:8080/tcp gocacl:latest
+docker build --rm -f "dockerfile" -t gocalc:latest "." 
+docker run --rm -d -p 8080:8080/tcp gocalc:latest
 ```
 
 ## Примеры (режим cервиса)
@@ -51,7 +47,7 @@ docker run --rm -d -p 8080:8080/tcp gocacl:latest
 >>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2+2*2\" }"
 {"result":6}
 
-C:\Users\denis\YandexDisk\Рабочий стол\GOCACL>curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/2\" }" 
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/2\" }" 
 {"result":1}
 
 >>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/0\" }"
