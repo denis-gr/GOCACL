@@ -3,7 +3,7 @@ package main
 
 import (
 	"flag"
-	"gocalc/internal/server"
+	"github.com/denis-gr/GOCACL/internal/server"
 )
 
 func main() {

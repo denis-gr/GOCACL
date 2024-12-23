@@ -4,7 +4,7 @@ package console
 import (
 	"fmt"
 
-	"gocalc/pkg/calc"
+	"github.com/denis-gr/GOCACL/pkg/calc"
 )
 
 // StartConsoleApp starts the console calculator application.

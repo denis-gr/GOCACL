@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"gocalc/pkg/calc"
+	"github.com/denis-gr/GOCACL/pkg/calc"
 )
 
 const (
