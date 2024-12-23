@@ -25,6 +25,9 @@ jobs:
       with:
         go-version: 1.23.2
 
+    - name: Run linter
+      run: go install github.com/mgechev/revive@latest && revive -formatter friendly ./...
+
     - name: Install dependencies
       run: go mod tidy
 
@@ -46,6 +49,7 @@ jobs:
 
     - name: Release
       uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
           build/server-linux-amd64

@@ -1,26 +1,10 @@
+// Package main is the entry point for the console calculator application.
 package main
 
 import (
-    "fmt"
-
-    "gocalc/pkg/calc"
+	"gocalc/internal/console"
 )
 
 func main() {
-    for {
-        var expression string
-        fmt.Print("Введите выражение (или 'exit' для выхода): ")
-        fmt.Scanln(&expression)
-
-        if expression == "exit" {
-            break
-        }
-
-        result, err := calc.Calc(expression)
-        if err != nil {
-            fmt.Printf("Ошибка при вычислении выражения %q: %v\n", expression, err)
-        } else {
-            fmt.Printf("Результат %q = %v\n", expression, result)
-        }
-    }
+	console.StartConsoleApp()
 }

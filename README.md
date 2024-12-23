@@ -54,11 +54,10 @@ docker run --rm -d -p 8080:8080/tcp gocacl:latest
 C:\Users\denis\YandexDisk\Рабочий стол\GOCACL>curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/2\" }" 
 {"result":1}
 
-C:\Users\denis\YandexDisk\Рабочий стол\GOCACL>curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/0\" }"
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2/0\" }"
 {"error":"деление на ноль"}
 
 >>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"2+2*\" }" 
-}"
 {"error":"некорректное выражение"}
 
 >>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"\" }"
@@ -66,6 +65,9 @@ C:\Users\denis\YandexDisk\Рабочий стол\GOCACL>curl --location "http:/
 
 >>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \" }"
 {"error":"unexpected EOF"}
+
+>>> curl --location "http://localhost:8080/api/v1/calculate" --header "Content-Type: application/json" --data "{ \"expression\": \"Python идет за тобой\" }"
+{"error":"Горфер паникует"}
 ```
 
 ## Запуск тестов
