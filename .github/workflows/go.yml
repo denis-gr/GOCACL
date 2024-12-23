@@ -3,18 +3,18 @@ name: Go
 on:
   push:
     branches: [ master ]
+    tags: ['*']
   pull_request:
     branches: [ master ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
 
+    permissions: write-all
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        goos: [linux, windows, darwin]
-        goarch: [amd64, arm64]
 
     steps:
     - name: Checkout code
@@ -28,24 +28,32 @@ jobs:
     - name: Install dependencies
       run: go mod tidy
 
-    - name: build
-      run: |
-        mkdir -p build
-        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -v -o build/server-${{ matrix.goos }}-${{ matrix.goarch }} cmd/server/server.go
-
     - name: Run tests
       run: go test --cover -v ./... 
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: myapp-${{ matrix.goos }}-${{ matrix.goarch }}
-        path: build/myapp-${{ matrix.goos }}-${{ matrix.goarch }}
+    - name: build
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        mkdir -p build
+        GOOS=linux GOARCH=amd64 go build -o build/server-linux-amd64 cmd/server/server.go
+        GOOS=linux GOARCH=arm64 go build -o build/server-linux-arm64 cmd/server/server.go
+        GOOS=linux GOARCH=386 go build -o build/server-linux-386 cmd/server/server.go
+        GOOS=windows GOARCH=amd64 go build -o build/server-windows-amd64.exe cmd/server/server.go
+        GOOS=windows GOARCH=arm64 go build -o build/server-windows-arm64.exe cmd/server/server.go
+        GOOS=windows GOARCH=386 go build -o build/server-windows-386.exe cmd/server/server.go
+        GOOS=darwin GOARCH=amd64 go build -o build/server-darwin-amd64 cmd/server/server.go
+        GOOS=darwin GOARCH=arm64 go build -o build/server-darwin-arm64 cmd/server/server.go
 
     - name: Release
       uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
-            Release.txt
-            LICENSE
+          build/server-linux-amd64
+          build/server-linux-arm64
+          build/server-linux-386
+          build/server-windows-amd64.exe
+          build/server-windows-arm64.exe
+          build/server-windows-386.exe
+          build/server-darwin-amd64
+          build/server-darwin-arm64
+          README.md
